@@ -16,7 +16,7 @@ The draft system server side works fine on Linux and macOS, but didn't test on W
 
 Please make sure your system requirements has no problem. Do as following.
 
-- Clone the source using `git clone`.
+- clone the source using `git clone`.
 - `cd` to project `app` directory
 - install all dependences using `pip3 install -r requirement.txt`
 - run `python3 app.py` to start the system
