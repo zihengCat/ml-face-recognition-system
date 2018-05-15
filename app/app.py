@@ -1,12 +1,12 @@
 import json
 import flask as f
-import web_api_list
+import api
 
 
 app = f.Flask(__name__)
-i = web_api_list.AppWebAPIList()
+i = api.APIList()
 
-# RESTful API Routers Begin
+# RESTful APIs
 
 ## For CORS
 @app.after_request
@@ -18,23 +18,17 @@ def do_after_request(response):
 
 @app.route('/image', methods = ['POST'])
 def do_image():
-#    try:
-    image_file = f.request.files['image']  # get the image
-    print(image_file)
-    return i.faceRecognition(image_file)
-#    except:
-#        print('POST /image error')
-#return "Bad"
+    try:
+        # get the image
+        image_file = f.request.files['image']
+        #print(image_file)
+        return i.faceRecognition(image_file)
+    except:
+        print('Error: in POST /image')
 
 @app.route('/get/register', methods = ['GET', 'POST'])
 def do_get_register():
     return i.getRegisterInfo()
-
-@app.route('/check/face/<uid>', methods = ['GET', 'POST'])
-def do_check_face(uid):
-    return i.faceRecognition(uid)
-
-# RESTful API Routers End
 
 # Pages Router
 
@@ -45,23 +39,6 @@ def index():
 @app.route('/video')
 def do_video():
     return f.Response(open('./templates/video.html').read(), mimetype="text/html")
-
-@app.route('/hello')
-def hello():
-    return '<h1>Hello</h1>'
-
-@app.route('/json', methods=['GET', 'POST'])
-def do_json():
-    l = [
-{ 'uid': '1',
-  'name': 'ziheng',
-  'age': '20',
-  'gender': '男',
-  'image': 'addr'
-}]
-    return json.dumps(l);
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def do_login():
