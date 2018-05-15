@@ -10,5 +10,5 @@ import face_class as fc
 face = fc.FaceData(os.path.join(sys.path[0], 'face.data'))
 #face.addFace("obama2", './tests/obama_default.jpg')
 #face.showFace()
-face.recognizeFace(os.path.join(sys.path[0], 'tests/obama_t1.jpg'))
+print(face.recognizeFace(os.path.join(sys.path[0], 'tests/obama_t1.jpg')))
 
