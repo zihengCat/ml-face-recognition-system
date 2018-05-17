@@ -25,7 +25,7 @@ Please make sure your system requirements has no problem. Do as following.
 
 The following image shows that the system works fine.
 
-[demo_1][demo_1]
+![demo_1][demo_1]
 
 # License
 
