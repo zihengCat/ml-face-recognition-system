@@ -17,13 +17,11 @@ i = api.APIList()
 # 接口 => addUser(self, user_obj, img_name = None):
 # 注：img_name图片必须存在于 face_core/face_images 下
 
-# 删除数据
-def uDel(uid):
-    i.delUser(userid = uid)
-
 if __name__ == '__main__':
     # 显示数据
-    if(sys.argv[1] == "show" and len(sys.argv) == 3):
+    if(len(sys.argv) < 2):
+        print("Error: too few argument")
+    elif(sys.argv[1] == "show" and len(sys.argv) == 3):
         i.showUser(sys.argv[2])
     elif(sys.argv[1] == "show" and len(sys.argv) == 2):
         i.showUser("all")
@@ -40,9 +38,9 @@ if __name__ == '__main__':
         i.addUser(user_obj = new_user, img_name = pic_name)
     # 删除数据
     elif(sys.argv[1] == "delete" and len(sys.argv) == 3):
-        uDel(sys.argv[2])
+        i.delUser(userid = sys.argv[2])
     elif(sys.argv[1] == "clean" and len(sys.argv) == 2):
-        uDel("all")
+        i.delUser(userid = 'all')
     else:
-        print("Error command")
+        print("Error: argument does not fit")
 

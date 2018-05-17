@@ -43,6 +43,7 @@
               <li class="inactive"><a href="#" class="sf-notepad">门禁记录</a></li>
               <li class="inactive"><a href="#" class="sf-handshake">访客添加</a></li>
               <li class="inactive"><a href="#" class="sf-wrench-screwdriver">系统工具</a></li>
+              <li class="inactive"><a href="#" class="sf-webcam">Demo演示</a></li>
             </ul>
           </div>
         </div>
@@ -158,36 +159,8 @@
           </div>
         </div>
 <!-- -->
-        <div class="panel panel-default">
-          <button onclick="getData()" type="button" class="btn btn-primary btn-lg">查询</button>
-          <button onclick="getXXX()" type="button" class="btn btn-lg">增加</button>
-          <button onclick="getXXX()" type="button" class="btn btn-lg">删除</button>
-          <button onclick="getXXX()" type="button" class="btn btn-lg">修改</button>
-        </div>
-<!-- -->
-        <div class="panel panel-default">
-          <div class="panel-heading">注册用户数据表</div>
-            <div class="panel-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>UID</th>
-                            <th>姓名</th>
-                            <th>性别</th>
-                            <th>年龄</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-<!-- Data -->
-<!-- Auto Insert -->
-<!-- Data -->
-                   </tbody>
-                </table>
-            </div>
-        </div>
-     </div>
       <footer class="cm-footer"><span class="pull-right">&copy; A Company Inc.</span></footer>
-    </div>
+  </div>
 
 <!-- Scripts -->
     <script src="{{ url_for('static', filename='assets/js/lib/jquery-2.1.3.min.js')}}"
@@ -206,9 +179,6 @@
     ></script>
     <script
         src="{{ url_for('static', filename='assets/js/clearmin.min.js')}}"
-    ></script>
-    <script
-        src="{{ url_for('static', filename='main.js')}}"
     ></script>
 </body>
 {% endblock %}

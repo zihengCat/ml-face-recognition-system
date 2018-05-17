@@ -23,13 +23,10 @@ def do_after_request(response):
 ## Face Recognition
 @app.route('/image', methods = ['POST'])
 def do_image():
-    try:
-        # get the image
-        image_file = f.request.files['image']
-        #print(image_file)
-        return i.faceRecognition(image_file)
-    except:
-        print('Error: in POST /image')
+    # get the image
+    image_file = f.request.files['image']
+    #print(image_file)
+    return i.faceRecognition(image_file)
 
 ## Get Register Info
 @app.route('/get/register', methods = ['GET', 'POST'])
@@ -111,6 +108,11 @@ def do_useradd():
 @app.route('/video')
 def do_video():
     return f.Response(open('./templates/video.html').read(), mimetype="text/html")
+
+@app.route('/pistream')
+def do_pistream():
+    return f.render_template('pistream.tpl', ip_port='192.168.1.103:8084')
+
 
 @app.route('/u/<username>')
 def username(username):

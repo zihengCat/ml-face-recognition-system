@@ -78,8 +78,11 @@ class FaceData():
                         }
                     }
             else:
-                    # 返回 unknown UID
-                    return  {'uid': 'unknown'}
+                # 返回 unknown UID
+                return  {'uid': 'unknown'}
+        else:
+            # 返回 noface
+            return  {'uid': 'noface'}
 
     # API 函数：查询人脸数据库中的注册信息
     # 参数：UID

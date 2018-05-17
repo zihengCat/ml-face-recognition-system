@@ -52,10 +52,18 @@ class APIList():
     # API 函数：前端获取到人脸图片交后台程序处理
     # 参数：二进制图片（Blob）
     # 返回：识别结果数据（JSON）
-    def faceRecognition(self, img):
-        r = self.facedata.recognizeFace(unknown_img_obj = img)
-        print(r)
-        return json.dumps(r)
+    def faceRecognition(self, img_obj):
+        r = { }
+        r = self.facedata.recognizeFace(unknown_img_obj = img_obj)
+        #print(r)
+        try:
+            if(r['uid'] != 'unknow' and r['uid'] != 'noface'):
+                u = r
+                u_info = self.maindata[r['uid']]
+                u.update({'info': u_info})
+            return json.dumps(u)
+        except:
+            return json.dumps(r)
 
     # API 函数：添加一条数据至用户数据库与人脸数据库
     # 参数：user_obj
@@ -103,6 +111,8 @@ class APIList():
         self.facedata.delFace(uid = userid)
         # 设置存盘指示器
         self.saver = 1
+        # 数据存盘
+        self.dataSaver()
 
     # API 函数：显示数据至终端
     def showUser(self, uid = "all"):

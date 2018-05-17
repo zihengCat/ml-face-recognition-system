@@ -4,29 +4,18 @@
  */
 //Parameters
 const s = document.getElementById('objDetect');
-const sourceVideo = s.getAttribute("data-source");  //the source video to use
-const uploadWidth = s.getAttribute("data-uploadWidth") || 640; //the width of the upload file
-const mirror = s.getAttribute("data-mirror") || false; //mirror the boundary boxes
-const scoreThreshold = s.getAttribute("data-scoreThreshold") || 0.5;
 //the API server url
-const apiServer = s.getAttribute("data-apiServer") || window.location.origin + '/image';
+const apiServer = window.location.origin + '/image';
+const wsIPPort = '192.168.1.103:8084'
 
-//Video element selector
-v = document.getElementById(sourceVideo);
-
-//for starting events
-let isPlaying = false,
-    gotMetadata = false;
-
-//Canvas setup
-
-//create a canvas to grab an image for upload
-let imageCanvas = document.createElement('canvas');
+//canvas to grab an image for upload
+let imageCanvas = document.getElementById('videoCanvas');
 let imageCtx = imageCanvas.getContext("2d");
 
+//Canvas setup
 //create a canvas for drawing object boundaries
 let drawCanvas = document.createElement('canvas');
-document.body.appendChild(drawCanvas);
+//document.body.appendChild(drawCanvas);
 let drawCtx = drawCanvas.getContext("2d");
 
 //draw boxes and labels on each detected object
@@ -42,28 +31,19 @@ let drawCtx = drawCanvas.getContext("2d");
 */
 function drawBoxes(objects) {
     //clear the previous drawings
-    drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-
-    if(objects !== null && objects.uid !== 'unknown') {
-        //filter out objects that contain a class_name and then draw boxes and labels on each
-        let object = objects;
-        //console.log(object);
-        // flip the x axis if local video is mirrored
-        /*
-        if (mirror) {
-            x = drawCanvas.width - (x + width)
-        }
-        */
-
-        drawCtx.fillText(object.uid,
-                         object.locations.bottom + 100,
-                         object.locations.tops);
-
-        drawCtx.strokeRect(object.locations.bottom + 80,
-                           object.locations.tops + 20,
-                           100,
-                           100)
-    }
+    //drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    if(objects !== null &&
+       objects.uid !== 'noface' &&
+       objects.uid !== 'unknown')
+   {
+        var showArea = document.getElementById('showArea');
+        //var str = JSON.stringify(objects.info);
+        var str = '<table class="table table-bordered"><thead><tr><th>姓名</th><th>性别</th><th>年龄</th></tr></thead><tbody><tr><td>name</td><td>gender</td><td>age</td></tr><tbody></table>';
+        str = str.replace('name', objects.info.name);
+        str = str.replace('gender', objects.info.gender);
+        str = str.replace('age', objects.info.age);
+        showArea.innerHTML = str;
+   }
 }
 
 //Add file blob to a form and post
@@ -83,7 +63,10 @@ function postFile(file) {
             //draw the boxes
             drawBoxes(objects);
             //Save and send the next image
-            imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight, 0, 0, uploadWidth, uploadWidth * (v.videoHeight / v.videoWidth));
+            //imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight, 0, 0, uploadWidth, uploadWidth * (v.videoHeight / v.videoWidth));
+            imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight, 0, 0,
+            imageCanvas.width,
+            imageCanvas.width * (v.videoHeight / v.videoWidth));
             imageCanvas.toBlob(postFile, 'image/jpeg');
         }
         else {
@@ -98,12 +81,15 @@ function startObjectDetection() {
 
     console.log("starting object detection");
 
+    v = imageCanvas;
     //Set canvas sizes base don input video
-    drawCanvas.width = v.videoWidth;
-    drawCanvas.height = v.videoHeight;
+    drawCanvas.width = imageCanvas.width;
+    drawCanvas.height = imageCanvas.height;
 
+    /*
     imageCanvas.width = uploadWidth;
     imageCanvas.height = uploadWidth * (v.videoHeight / v.videoWidth);
+    */
 
     //Some styles for the drawcanvas
     drawCtx.lineWidth = 6;
@@ -112,13 +98,26 @@ function startObjectDetection() {
     drawCtx.fillStyle = "cyan";
 
     //Save and send the first image
-    imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight, 0, 0, uploadWidth, uploadWidth * (v.videoHeight / v.videoWidth));
+    imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight, 0, 0,
+                       imageCanvas.width,
+                       imageCanvas.width * (v.videoHeight / v.videoWidth));
     imageCanvas.toBlob(postFile, 'image/jpeg');
 
 }
 
-//Starting events
+startObjectDetection();
+// Show loading notice
+var canvas = document.getElementById('videoCanvas');
+var ctx = canvas.getContext('2d');
+ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
+// Setup the WebSocket connection and start the player
+var client = new WebSocket("ws://" + wsIPPort);
+var player = new jsmpeg(client, {canvas:canvas});
 
+
+
+//Starting events
+/*
 //check if metadata is ready - we need the video size
 v.onloadedmetadata = () => {
     console.log("video metadata ready");
@@ -135,4 +134,4 @@ v.onplaying = () => {
         startObjectDetection();
     }
 };
-
+*/
