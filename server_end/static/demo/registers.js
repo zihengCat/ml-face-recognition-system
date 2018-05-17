@@ -1,4 +1,4 @@
-function getJSON() {
+function getData() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", "/get/register", true);
     xmlhttp.onreadystatechange = function()
@@ -8,25 +8,29 @@ function getJSON() {
             var d = document.getElementsByClassName('table');
             d = d[0].tBodies[0];
             d.innerHTML = "";
-            for(var i = 0; i < data.length; i++) {
-                d.innerHTML += json2el(data[i]);
+            for(var k in data) {
+                d.innerHTML += json_to_node(k, data[k]);
             }
         }
     }
     xmlhttp.send();
 }
-
-function json2el(obj) {
+function getXXX() {
+    alert("该功能还未完成...");
+}
+function json_to_node(key, obj) {
 /*
-[{ 'uid': '1',
-  'name': 'ziheng',
-  'age': '20',
-  'gender': '男'
-  'image': 'addr'
-}, ...]
+{ 'uid': {
+    'name': 'ziheng',
+    'age': '20',
+    'gender': '男',
+    'image': 'addr'
+   },
+   ...
+}
 */
     var str = '<tr>' +
-              '<th>' + obj['uid'] + '</th>' +
+              '<th>' + key + '</th>' +
               '<th>' + obj['name'] + '</th>' +
               '<th>' + obj['gender'] + '</th>' +
               '<th>' + obj['age'] + '</th>' +

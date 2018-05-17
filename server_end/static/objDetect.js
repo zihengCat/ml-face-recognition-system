@@ -1,7 +1,6 @@
 /**
- * Created by chad hart on 11/30/17.
- * Client side of Tensor Flow Object Detection Web API
- * Written for webrtcHacks - https://webrtchacks.com
+ * Created by zihengCat on 2018-05-17.
+ * Client side of dlib Face Detection Web API
  */
 //Parameters
 const s = document.getElementById('objDetect');
@@ -44,7 +43,7 @@ function drawBoxes(objects) {
     //clear the previous drawings
     drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
 
-    if(objects !== null) {
+    if(objects !== null && objects.uid !== 'unknown') {
         //filter out objects that contain a class_name and then draw boxes and labels on each
         let object = objects;
         //console.log(object);
@@ -56,8 +55,8 @@ function drawBoxes(objects) {
         */
 
         drawCtx.fillText(object.uid,
-                           object.locations.bottom + 100,
-                           object.locations.tops);
+                         object.locations.bottom + 100,
+                         object.locations.tops);
 
         drawCtx.strokeRect(object.locations.bottom + 80,
                            object.locations.tops + 20,

@@ -33,14 +33,16 @@ class FaceData():
                 self.face_data = pickle.load(f)
                 f.close()
             except:
-                f.close()
                 raise "Error: open face.data failed or unknown format"
-    # 析构函数：通过指示器判断是否要重新保存数据
-    def __del__(self):
+    # API 函数：通过存盘指示器判断是否要重新存盘（数据有无更动）
+    # 注：不要使用 __del__
+    def dataClose(self):
         if(self.counter == 1):
-            self.__updateFace()
+            f = open(self.face_data_path, 'wb')
+            pickle.dump(self.face_data, f)
+            f.close()
         else:
-            pass
+            print("in faces database: Nothing to do")
     # API 函数：人脸识别
     # 参数：图片路径或图片二进制数据
     # 返回：人脸数据库中目标UID与目标人脸框（前端显示）
@@ -58,15 +60,16 @@ class FaceData():
             raise "Error: face_class -> recognizeFace"
         # 返回数据格式 => 列表（List）
         unknown_encoding = face_recognition.face_encodings(unknown_image)
-        # 设置单一人脸识别限制
+        # 设置：人脸识别限制（单一人脸）
         if(len(unknown_encoding) == 1):
             # 核查目标人脸是否在数据库中（注册用户 or 陌生人）
-            face_name = self.__checkFaceEncoding(unknown_encoding[0])
-            if(face_name != None):
+            face_uname = self.__checkFaceEncoding(unknown_encoding[0])
+            if(face_uname != None):
                 face_locations = face_recognition.face_locations(unknown_image)
-                for ((top, right, bottom, left), name) in zip(face_locations, face_name):
+                for (top, right, bottom, left) in face_locations:
+                    # 返回UID与人脸坐标
                     return  {
-                        'uid': name,
+                        'uid': face_uname,
                         'locations': {
                             'tops': top,
                             'right': right,
@@ -74,6 +77,10 @@ class FaceData():
                             'left': left
                         }
                     }
+            else:
+                    # 返回 unknown UID
+                    return  {'uid': 'unknown'}
+
     # API 函数：查询人脸数据库中的注册信息
     # 参数：UID
     # 返回：
@@ -83,23 +90,38 @@ class FaceData():
         else:
             print(self.face_data[uid]);
     # API 函数：添加人脸数据
-    def addFace(self, uid, img_path):
-        image = face_recognition.load_image_file(img_path)
-        encoding = face_recognition.face_encodings(image)[0]
-        add_data = {
-            img_id: encoding
+    def addFace(self, uid, img_path = None, img_obj = None):
+        target_image = None
+        # 不同参数 => 不同处理方式
+        if(img_path != None and img_obj == None):
+            target_image = face_recognition.load_image_file(img_path)
+        elif(img_path == None and img_obj != None):
+            target_image = pil.Image.open(img_obj)
+            # 'RGB' (8-bit RGB, 3 channels) or 'L' (black and white)
+            target_image = target_image.convert('RGB')
+            target_image = np.array(target_image)
+        else:
+            raise "Error: face_class -> recognizeFace"
+        encoding = face_recognition.face_encodings(target_image)[0]
+        new_data = {
+            uid: encoding
         }
         # 加入新数据
-        self.face_data.update(add_data)
-        # 设触发器（保存数据）
+        self.face_data.update(new_data)
+        # 设置触发器（数据存盘）
         self.counter = 1
     # API 函数：删除人脸数据
     def delFace(self, uid):
-        # 删除已有数据
-        face_data.pop(uid)
-        # 设触发器（保存数据）
+        if(uid == "all"):
+            # 删除所有数据
+            self.face_data = { }
+        else:
+            # 删除目标数据
+            self.face_data.pop(uid)
+        # 设置触发器（数据存盘）
         self.counter = 1
-    # API函数：清空人脸数据
+
+    # API 函数：清空人脸数据库
     #def cleanFace(self, flag = None):
     #    self.face_data = { }
     #    self.counter = 1
@@ -115,9 +137,5 @@ class FaceData():
             if(d < 0.6):
                 return k
         return None
-    # 内部函数：数据落盘
-    def __updateFace(self):
-        f = open(self.face_data_path, 'wb')
-        pickle.dump(self.face_data, f)
-        f.close()
+
 

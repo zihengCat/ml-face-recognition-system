@@ -60,34 +60,34 @@
           </div>
         </div>
 		<div class="panel panel-default">
-            <div class="panel-heading">Login Form (responsive)</div>
+            <div class="panel-heading">访客添加</div>
                 <div class="panel-body" style="min-height: 214px;">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="/put/user" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+                            <label class="col-sm-2 control-label">姓名</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputEmail3" placeholder="Username">
+                                    <input type="text" class="form-control" name="uname" placeholder="Username">
                                 </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">性别</label>
                                 <div class="col-sm-10">
                                     <select name="gender" class="form-control">
-                                      <option value ="male">男</option>
-                                      <option value ="female">女</option>
+                                      <option value="male">男</option>
+                                      <option value="female">女</option>
                                     </select>
                                 </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">年龄</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Age">
+                                    <input name="age" type="text" class="form-control" placeholder="Age">
                                 </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">年龄</label>
+                            <label class="col-sm-2 control-label">人脸图像</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="Age">
+                                    <input name="image" type="file" class="form-control">
                                 </div>
                         </div>
                         <div class="form-group" style="margin-bottom:0">

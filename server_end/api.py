@@ -5,21 +5,50 @@ import json
 import face_core.face_class as fc
 # API 列表
 # 为 Flask Web 框架提供封装的 API 支持
+# 用户主数据格式 =>
+#{
+#    "uid": {
+#        "name": "吕子恒",
+#        "age": "20",
+#        "gender": "男"
+#    },
+#    ...
+#}
 class APIList():
     def __init__(self):
         # 启动人脸数据库（内存）
         self.facedata = fc.FaceData()
         # 启动用户数据库（SQL）
-        # SQL 待实现，先用 JSON 替代
-        f = open(os.path.join(sys.path[0], 'user_data/users.json'), 'rt')
+        ## SQL 待实现，先用 JSON 替代
+        # 数据库地址
+        self.datapath = os.path.join(sys.path[0], 'user_data/users.json')
+        # 存盘指示器
+        self.saver = 0
+        # 用户信息数据库
+        f = open(self.datapath, 'rt')
         self.maindata = json.load(f)
         f.close()
-    # API 函数：取得注册用户
+    # API析构函数：数据落盘
+    def dataSaver(self):
+        if(self.saver == 1):
+            f = open(self.datapath, 'wt')
+            json.dump(self.maindata, f)
+            f.close()
+            # 通知人脸数据库也执行一下存盘操作
+            self.facedata.dataClose()
+            print("Data saved OK")
+        else:
+            print("in users database: Nothing to do")
+
+    # API 函数：取得注册用户信息
+    # 参数：用户UID
+    # 返回：目标用户信息（不指定UID则获取全部用户信息）
     def getRegisterInfo(self, uid = None):
-        if(obj == None):
+        if(uid == None):
             return json.dumps(self.maindata)
         else:
-            return json.dumps({ })
+            return json.dumps(self.maindata[uid])
+
     # API 函数：前端获取到人脸图片交后台程序处理
     # 参数：二进制图片（Blob）
     # 返回：识别结果数据（JSON）
@@ -27,33 +56,71 @@ class APIList():
         r = self.facedata.recognizeFace(unknown_img_obj = img)
         print(r)
         return json.dumps(r)
-#except:
-#print("Erroe: in faceRecognition")
-#finally:
-#return json.dumps(r)
+
     # API 函数：添加一条数据至用户数据库与人脸数据库
-    def addUser(self, u_obj):
-        l = [
-{ 'uid': '1',
-  'name': 'ziheng',
-  'age': '20',
-  'gender': '男',
-  'image': 'blob'
-}]
-    # 内部函数：随机生成 UID
-    # UID：人脸数据库与用户数据库的关联键
+    # 参数：user_obj
+    # 返回：无
+    # user_obj（可由Web前端传递） =>
+    # {
+    #    "image": img_obj,
+    #    "name": "",
+    #    "age": "",
+    #    "gender": ""
+    # }
+    def addUser(self, user_obj, img_name = None):
+        uid = self.__random_uid();
+        new_user = {
+            uid: {
+                'name':    user_obj['name'],
+                'age':     user_obj['age'],
+                'gender':  user_obj['gender']
+            }
+        }
+        # 加入新数据至用户信息数据库
+        self.maindata.update(new_user)
+        self.saver = 1
+        # 加入新数据至用户人脸数据库
+        if(img_name != None):
+            # CLI命令行接口
+            p = os.path.join(sys.path[0], 'face_core/face_images/' + img_name)
+            self.facedata.addFace(uid, img_path = p)
+        else:
+            # Web前端接口
+            self.facedata.addFace(uid, img_obj= user_obj['image'])
+        # 数据落盘
+        self.dataSaver()
+        # 正常返回
+        return 0
+
+    def delUser(self, userid):
+        if(userid == "all"):
+            # 清空数据
+            self.maindata = { }
+        else:
+            # 删除目标数据
+            self.maindata.pop(userid)
+        # 通知人脸数据库执行相同操作
+        self.facedata.delFace(uid = userid)
+        # 设置存盘指示器
+        self.saver = 1
+
+    # API 函数：显示数据至终端
+    def showUser(self, uid = "all"):
+        if(uid == "all"):
+            print(self.maindata)
+        else:
+            print(self.maindata[uid])
+
     def __random_uid(self):
         seed  = "1234567890"
         seed += "abcdefghijklmnopqrstuvwxyz"
         seed += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        seed += "!@#$%^&*()_+=-"
+        # 不使用特殊字符
+        #seed += "!@#$%^&*()_+=-"
         sa = [ ]
         salt = ''
         for i in range(8):
             sa.append(random.choice(seed))
             salt = ''.join(sa)
         return salt
-# 测试
-if __name__ == '__main__':
-    pass
 
