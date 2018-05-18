@@ -177,6 +177,5 @@ def main():
             print('Waiting for websockets thread to finish')
             websocket_thread.join()
 
-
 if __name__ == '__main__':
     main()

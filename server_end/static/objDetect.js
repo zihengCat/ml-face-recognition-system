@@ -9,7 +9,8 @@ const uploadWidth = s.getAttribute("data-uploadWidth") || 640; //the width of th
 const mirror = s.getAttribute("data-mirror") || false; //mirror the boundary boxes
 const scoreThreshold = s.getAttribute("data-scoreThreshold") || 0.5;
 //the API server url
-const apiServer = s.getAttribute("data-apiServer") || window.location.origin + '/image';
+const apiServer = s.getAttribute("data-apiServer") ||
+                    window.location.origin + '/image';
 
 //Video element selector
 v = document.getElementById(sourceVideo);
@@ -44,7 +45,10 @@ function drawBoxes(objects) {
     //clear the previous drawings
     drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
 
-    if(objects !== null && objects.uid !== 'unknown') {
+    if(objects !== null &&
+       objects.uid !== 'unknown' &&
+       objects.uid !== 'noface')
+    {
         //filter out objects that contain a class_name and then draw boxes and labels on each
         let object = objects;
         //console.log(object);
@@ -55,7 +59,7 @@ function drawBoxes(objects) {
         }
         */
 
-        drawCtx.fillText(object.uid,
+        drawCtx.fillText(object.info.name,
                          object.locations.bottom + 100,
                          object.locations.tops);
 

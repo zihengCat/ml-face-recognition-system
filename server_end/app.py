@@ -98,12 +98,10 @@ def do_dashboard():
 def do_registers():
     return f.render_template('registers.tpl')
 
-
 ## Useradd Page
 @app.route('/useradd', methods=['GET', 'POST'])
 def do_useradd():
     return f.render_template('useradd.tpl')
-
 
 @app.route('/video')
 def do_video():

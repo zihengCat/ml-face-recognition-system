@@ -15,7 +15,7 @@ i = api.APIList()
 #    "gender": ""
 # }
 # 接口 => addUser(self, user_obj, img_name = None):
-# 注：img_name图片必须存在于 face_core/face_images 下
+# 注：img_name 图片必须存在于 face_core/face_images 下
 
 if __name__ == '__main__':
     # 显示数据
@@ -25,6 +25,12 @@ if __name__ == '__main__':
         i.showUser(sys.argv[2])
     elif(sys.argv[1] == "show" and len(sys.argv) == 2):
         i.showUser("all")
+
+    # 模拟查询
+    # cliFaceRecognition(self, img_path):
+    elif(sys.argv[1] == "query" and len(sys.argv) == 3):
+        print(i.cliFaceRecognition(sys.argv[2]))
+
     # 添加数据
     elif(sys.argv[1] == "add" and len(sys.argv) == 3):
         pic_name = sys.argv[2]

@@ -50,7 +50,11 @@ class FaceData():
         unknown_image = None
         # 不同参数 => 不同处理方式
         if(unknown_img_path != None and unknown_img_obj == None):
-            unknown_image = face_recognition.load_image_file(unknown_img_path)
+            # 拼接完整路径
+            p = os.path.join(sys.path[0],
+                            'face_core/face_images/' + unknown_img_path)
+            # 读取本地图片
+            unknown_image = face_recognition.load_image_file(p)
         elif(unknown_img_path == None and unknown_img_obj != None):
             unknown_image = pil.Image.open(unknown_img_obj)
             # 'RGB' (8-bit RGB, 3 channels) or 'L' (black and white)

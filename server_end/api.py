@@ -4,7 +4,7 @@ import random
 import json
 import face_core.face_class as fc
 # API 列表
-# 为 Flask Web 框架提供封装的 API 支持
+# 为 Flask Web 框架与 CLI 命令行工具提供封装的 API 支持
 # 用户主数据格式 =>
 #{
 #    "uid": {
@@ -34,7 +34,7 @@ class APIList():
             f = open(self.datapath, 'wt')
             json.dump(self.maindata, f)
             f.close()
-            # 通知人脸数据库也执行一下存盘操作
+            # 通知人脸数据库也执行存盘操作
             self.facedata.dataClose()
             print("Data saved OK")
         else:
@@ -57,11 +57,46 @@ class APIList():
         r = self.facedata.recognizeFace(unknown_img_obj = img_obj)
         #print(r)
         try:
-            if(r['uid'] != 'unknow' and r['uid'] != 'noface'):
+            if(r['uid'] != 'unknown' and r['uid'] != 'noface'):
                 u = r
                 u_info = self.maindata[r['uid']]
                 u.update({'info': u_info})
-            return json.dumps(u)
+                return json.dumps(u)
+            else:
+                return json.dumps(r)
+        except:
+            return json.dumps(r)
+
+    # API 函数：读取本地人脸图片交后台程序处理
+    # 参数：本地图片路径（String）
+    # 返回：识别结果数据（JSON）
+    def cliFaceRecognition(self, img_path):
+        r = { }
+        # 读取本地图片
+        r = self.facedata.recognizeFace(unknown_img_path = img_path)
+        #print(r)
+        try:
+            if(r['uid'] != 'unknown' and r['uid'] != 'noface'):
+                u = r
+                u_info = self.maindata[r['uid']]
+                u.update({'info': u_info})
+                # 问好
+                if(True):
+                    name = u_info['name']
+                    ext = '先生' if (u_info['gender'] == '男') else '女士'
+                    words = '很高兴遇见你，'
+                    words = words + name + ext
+                    cmd = 'ssh ziheng@10.211.55.14 ' + "'say " + words + "'"
+                    print(cmd)
+                    os.system(cmd)
+                return json.dumps(r)
+            elif(r['uid'] == 'unknown'):
+                if(True):
+                    words = '您好，本系统目前还不认识您，您可以尝试录入信息'
+                    cmd = 'ssh ziheng@10.211.55.14 ' + "'say " + words + "'"
+                    print(cmd)
+                    os.system(cmd)
+            return json.dumps(r)
         except:
             return json.dumps(r)
 
