@@ -6,7 +6,7 @@
 const s = document.getElementById('objDetect');
 //the API server url
 const apiServer = window.location.origin + '/image';
-const wsIPPort = '192.168.1.103:8084'
+const wsIPPort = '192.168.31.192:8084'
 
 //canvas to grab an image for upload
 let imageCanvas = document.getElementById('videoCanvas');
@@ -33,17 +33,36 @@ function drawBoxes(objects) {
     //clear the previous drawings
     //drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
     if(objects !== null &&
-       objects.uid !== 'noface' &&
-       objects.uid !== 'unknown')
-   {
+       objects.uid === 'noface')
+    {
+        //var showArea = document.getElementById('showArea');
+        //var str = JSON.stringify(objects.info);
+        //var str = '';
+        //showArea.innerHTML = str;
+    }
+    else if(objects !== null &&
+            objects.uid === 'unknown')
+    {
         var showArea = document.getElementById('showArea');
         //var str = JSON.stringify(objects.info);
-        var str = '<table class="table table-bordered"><thead><tr><th>姓名</th><th>性别</th><th>年龄</th></tr></thead><tbody><tr><td>name</td><td>gender</td><td>age</td></tr><tbody></table>';
+        var str = '<div class="markdown-body"><table><thead><tr><th>姓名</th><th>性别</th><th>年龄</th></tr></thead><tbody><tr><td>name</td><td>gender</td><td>age</td></tr><tbody></table></div>';
+        str = str.replace('name', '陌生人');
+        str = str.replace('gender', '');
+        str = str.replace('age', '');
+        showArea.innerHTML = str;
+    }
+    else if(objects !== null &&
+            objects.uid !== 'noface' &&
+            objects.uid !== 'unknown')
+    {
+        var showArea = document.getElementById('showArea');
+        //var str = JSON.stringify(objects.info);
+        var str = '<div class="markdown-body"><table><thead><tr><th>姓名</th><th>性别</th><th>年龄</th></tr></thead><tbody><tr><td>name</td><td>gender</td><td>age</td></tr><tbody></table></div>';
         str = str.replace('name', objects.info.name);
         str = str.replace('gender', objects.info.gender);
         str = str.replace('age', objects.info.age);
         showArea.innerHTML = str;
-   }
+    }
 }
 
 //Add file blob to a form and post

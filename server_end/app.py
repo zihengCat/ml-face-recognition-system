@@ -103,19 +103,29 @@ def do_registers():
 def do_useradd():
     return f.render_template('useradd.tpl')
 
+## Records Page
+@app.route('/records', methods=['GET', 'POST'])
+def do_records():
+    return f.render_template('records.tpl')
+
+## Systool Page
+@app.route('/systool', methods=['GET', 'POST'])
+def do_systool():
+    return f.render_template('systool.tpl')
+
+## Video Page
 @app.route('/video')
 def do_video():
     return f.Response(open('./templates/video.html').read(), mimetype="text/html")
 
+## Pi Page
 @app.route('/pistream')
 def do_pistream():
     return f.render_template('pistream.tpl', ip_port='192.168.1.103:8084')
 
-
 @app.route('/u/<username>')
 def username(username):
     return f.render_template('user.tpl', name=username)
-
 
 if __name__ == '__main__':
     #print(app.url_map)

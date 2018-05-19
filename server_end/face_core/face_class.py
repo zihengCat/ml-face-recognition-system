@@ -36,7 +36,7 @@ class FaceData():
                 raise "Error: open face.data failed or unknown format"
     # API 函数：通过存盘指示器判断是否要重新存盘（数据有无更动）
     # 注：不要使用 __del__
-    def dataClose(self):
+    def dataSaver(self):
         if(self.counter == 1):
             f = open(self.face_data_path, 'wb')
             pickle.dump(self.face_data, f)
@@ -64,11 +64,14 @@ class FaceData():
             raise "Error: face_class -> recognizeFace"
         # 返回数据格式 => 列表（List）
         unknown_encoding = face_recognition.face_encodings(unknown_image)
-        # 设置：人脸识别限制（单一人脸）
+        # 限制条件：人脸识别限制（单一人脸）
         if(len(unknown_encoding) == 1):
             # 核查目标人脸是否在数据库中（注册用户 or 陌生人）
             face_uname = self.__checkFaceEncoding(unknown_encoding[0])
-            if(face_uname != None):
+            if(face_uname == None):
+                # 返回 unknown UID
+                return  {'uid': 'unknown'}
+            else:
                 face_locations = face_recognition.face_locations(unknown_image)
                 for (top, right, bottom, left) in face_locations:
                     # 返回UID与人脸坐标
@@ -81,9 +84,6 @@ class FaceData():
                             'left': left
                         }
                     }
-            else:
-                # 返回 unknown UID
-                return  {'uid': 'unknown'}
         else:
             # 返回 noface
             return  {'uid': 'noface'}
@@ -139,10 +139,23 @@ class FaceData():
     # 返回 None 说明不匹配（陌生人）
     def __checkFaceEncoding(self, enc):
         # 时间复杂度 O(n)
+        all_key = [ ]
         for k in self.face_data:
             d = np.linalg.norm(self.face_data[k] - enc)
             if(d < 0.6):
-                return k
-        return None
+                all_key.append([k, d])
+        if(len(all_key) == 0):
+            return None
+        elif(len(all_key) == 1):
+            return all_key[0][0]
+        elif(len(all_key) > 1):
+            min_dis = all_key[0][1]
+            min_uid = all_key[0][0]
+            for i in all_key:
+                if i[1] < min_dis :
+                    min_dis = i[1]
+                    min_uid = i[0]
+            return min_uid
+
 
 

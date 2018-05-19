@@ -36,11 +36,13 @@
         <div id="cm-menu-items-wrapper">
           <div id="cm-menu-scroller">
             <ul class="cm-menu-items">
-              <li class="inactive"  ><a href="#" class="sf-house">主页面</a></li>
-              <li class="inactive"><a href="#" class="sf-lock-open">登录页</a></li>
-              <li class="inactive"><a href="#" class="sf-layers">查询页</a></li>
-              <li class="active"><a href="#" class="sf-webcam">演示页</a></li>
-              <li class="inactive"><a href="#" class="">功能页3</a></li>
+              <li class="inactive"><a href="/welcome" class="sf-house">欢迎页面</a></li>
+              <li class="inactive"><a href="/dashboard" class="sf-dashboard">数据中心</a></li>
+              <li class="inactive"><a href="/registers" class="sf-user-id">注册用户</a></li>
+              <li class="inactive"><a href="/records" class="sf-notepad">门禁记录</a></li>
+              <li class="active"><a href="/useradd" class="sf-handshake">访客添加</a></li>
+              <li class="inactive"><a href="/systool" class="sf-wrench-screwdriver">系统工具</a></li>
+              <li class="inactive"><a href="/video" class="sf-webcam">Demo演示</a></li>
             </ul>
           </div>
         </div>
@@ -56,7 +58,7 @@
       <div class="container-fluid">
         <div class="panel panel-default">
           <div class="panel-body">
-            <h2>欢迎使用本系统!</h2>
+            <h2>欢迎使用AI门禁后台管理系统</h2>
           </div>
         </div>
 		<div class="panel panel-default">

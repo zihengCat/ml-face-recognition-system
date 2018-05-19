@@ -40,10 +40,10 @@
               <li class="active"><a href="/welcome" class="sf-house">欢迎页面</a></li>
               <li class="inactive"><a href="/dashboard" class="sf-dashboard">数据中心</a></li>
               <li class="inactive"><a href="/registers" class="sf-user-id">注册用户</a></li>
-              <li class="inactive"><a href="#" class="sf-notepad">门禁记录</a></li>
-              <li class="inactive"><a href="#" class="sf-handshake">访客添加</a></li>
-              <li class="inactive"><a href="#" class="sf-wrench-screwdriver">系统工具</a></li>
-              <li class="inactive"><a href="#" class="sf-webcam">Demo演示</a></li>
+              <li class="inactive"><a href="/records" class="sf-notepad">门禁记录</a></li>
+              <li class="inactive"><a href="useradd" class="sf-handshake">访客添加</a></li>
+              <li class="inactive"><a href="/systool" class="sf-wrench-screwdriver">系统工具</a></li>
+              <li class="inactive"><a href="/video" class="sf-webcam">Demo演示</a></li>
             </ul>
           </div>
         </div>
@@ -116,8 +116,10 @@
       <div class="container-fluid">
         <div class="panel panel-default">
           <div class="panel-body">
-            <h2>欢迎使用门禁后台管理系统</h2>
-            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.</p>
+            <h2>欢迎使用AI门禁后台管理系统</h2>
+            <p>
+            本系统使用<code>dlib</code>机器学习库作为人脸识别模块的算法库。该库实现并封装了<code>FaceNet</code>深度学习人脸识别算法，可实现极高的人脸识别准确率与识别速度，<strong>允许用户自训练人脸识别模型</strong>。该库使用<code>C++</code>开发，提供了对于Python语言的API调用绑定。<code>dlib</code>是完全开源的。
+            </p>
           </div>
         </div>
         <div class="row cm-fix-height">
@@ -127,7 +129,9 @@
               <div class="panel-body" style="min-height: 287px;">
                 <img src="{{ url_for('static', filename='assets/img/sass-less.png')}}" alt="Less support" class="img-responsive">
                 <br>
-<p>Clearmin ships with vanilla CSS, but its source code utilizes Less CSS preprocessor. Quickly get started with precompiled CSS or build on the source. Colors and sizes are easily customizable with less variables.</p>
+<p>
+前端主页使用<code>pure CSS</code>展现页面样式，使用<code>Less CSS</code>预处理器生成。可以自由设置样式选项。
+</p>
               </div>
             </div>
            </div>
@@ -137,7 +141,9 @@
               <div class="panel-body" style="min-height: 287px;">
                 <img src="{{ url_for('static', filename='assets/img/devices.png')}}" alt="Less support" class="img-responsive">
                 <br>
-               <p>Clearmin easily and efficiently scales your websites and applications with a single code base, from phones to tablets to desktops with CSS media queries. Swipe from left on phones to toggle main menu.</p>
+               <p>
+               该后台管理系统使用Web技术构建而成。极具通用与可扩展性，而且具备跨设备跨平台的能力，灵活性强。
+               </p>
               </div>
             </div>
            </div>
@@ -147,7 +153,9 @@
               <div class="panel-body" style="min-height: 287px;">
                 <img src="{{ url_for('static', filename='assets/img/components.png')}}" alt="Less support" class="img-responsive">
                 <br>
-                <p>With Bootstrap, you get extensive and beautiful documentation for common HTML elements, dozens of custom HTML and CSS components, and awesome jQuery plugins.</p>
+                <p>
+                本系统提供大量简单可靠的管理组件，可方便管理注册用户，访客用户以及陌生人在门禁系统内的出入情况。
+                </p>
               </div>
             </div>
            </div>

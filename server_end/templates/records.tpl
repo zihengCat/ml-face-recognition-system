@@ -1,7 +1,7 @@
 {% extends 'base.tpl' %}
 
 {% block title %}
-    <title>数据中心</title>
+    <title>注册用户管理</title>
 {% endblock %}
 
 {% block head %}
@@ -23,13 +23,6 @@
   <link rel="stylesheet" type="text/css"
         href="{{ url_for('static', filename='assets/css/small-n-flat.css')}}"
   >
-
-  <link rel="stylesheet" type="text/css"
-        href="{{ url_for('static', filename='assets/css/font-awesome.min.css')}}"
-  >
-  <link rel="stylesheet" type="text/css"
-        href="{{ url_for('static', filename='assets/css/c3.min.css')}}"
-  >
 </head>
 {% endblock %}
 {% block body %}
@@ -44,10 +37,11 @@
         <div id="cm-menu-items-wrapper">
           <div id="cm-menu-scroller">
             <ul class="cm-menu-items">
+
               <li class="inactive"><a href="/welcome" class="sf-house">欢迎页面</a></li>
-              <li class="active"><a href="/dashboard" class="sf-dashboard">数据中心</a></li>
+              <li class="inactive"><a href="/dashboard" class="sf-dashboard">数据中心</a></li>
               <li class="inactive"><a href="/registers" class="sf-user-id">注册用户</a></li>
-              <li class="inactive"><a href="/records" class="sf-notepad">门禁记录</a></li>
+              <li class="active"><a href="/records" class="sf-notepad">门禁记录</a></li>
               <li class="inactive"><a href="useradd" class="sf-handshake">访客添加</a></li>
               <li class="inactive"><a href="/systool" class="sf-wrench-screwdriver">系统工具</a></li>
               <li class="inactive"><a href="/video" class="sf-webcam">Demo演示</a></li>
@@ -125,52 +119,39 @@
           <div class="panel-body">
             <h2>欢迎使用AI门禁后台管理系统</h2>
             <p>
-            本页是系统的数据中心，可查看系统负载情况，基于时间线的人员进出情况。
+            本页为门禁管理系统，管理员可以查看系统中所有已注册用户的信息，包括但不限于用户UID，姓名，年龄...管理员可以对已注册用户数据进行增删改查。
             </p>
           </div>
         </div>
-<!-- CM Dashboard -->
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">CPU负载</div>
-                            <div class="panel-body">
-                                <div id="d1-c1" style="height:150px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">内存压力</div>
-                            <div class="panel-body">
-                                <div id="d1-c2" style="height:150px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">网络IO</div>
-                            <div class="panel-body">
-                                <div id="d1-c3" style="height:150px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">门禁记录 - Bars</div>
-                    <div class="panel-body">
-                        <div id="d1-c5" style="height:320px"></div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">门禁记录 - Splines</div>
-                    <div class="panel-body">
-                        <div id="d1-c4" style="height:320px"></div>
-                    </div>
-                </div>
-                <div class="alert alert-info shadowed" role="alert"> <i class="fa fa-fw fa-info-circle"></i> 由 C3.js 绘图库提供强力支持 <a href="http://c3js.org/">http://c3js.org/</a> </div>
-
-<!-- CM Footer -->
+        <div class="row cm-fix-height">
+        <div class="panel panel-default">
+          <button onclick="getData()" type="button" class="btn btn-primary btn-lg">查询</button>
+          <button onclick="getXXX()" type="button" class="btn btn-lg">增加</button>
+          <button onclick="getXXX()" type="button" class="btn btn-lg">删除</button>
+          <button onclick="getXXX()" type="button" class="btn btn-lg">修改</button>
+        </div>
+<!-- -->
+        <div class="panel panel-default">
+          <div class="panel-heading">注册用户数据表</div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>UID</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!-- Data -->
+<!-- Auto Insert -->
+<!-- Data -->
+                   </tbody>
+                </table>
+            </div>
+        </div>
+     </div>
       <footer class="cm-footer"><span class="pull-right">&copy; A Company Inc.</span></footer>
     </div>
 
@@ -193,13 +174,7 @@
         src="{{ url_for('static', filename='assets/js/clearmin.min.js')}}"
     ></script>
     <script
-        src="{{ url_for('static', filename='assets/js/lib/d3.min.js')}}"
-    ></script>
-    <script
-        src="{{ url_for('static', filename='assets/js/lib/c3.min.js')}}"
-    ></script>
-    <script
-        src="{{ url_for('static', filename='demo/dashboard.js')}}"
+        src="{{ url_for('static', filename='demo/registers.js')}}"
     ></script>
 </body>
 {% endblock %}

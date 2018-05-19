@@ -3,6 +3,7 @@ import sys
 import random
 import json
 import face_core.face_class as fc
+import log_module as lg
 # API 列表
 # 为 Flask Web 框架与 CLI 命令行工具提供封装的 API 支持
 # 用户主数据格式 =>
@@ -22,23 +23,28 @@ class APIList():
         ## SQL 待实现，先用 JSON 替代
         # 数据库地址
         self.datapath = os.path.join(sys.path[0], 'user_data/users.json')
-        # 存盘指示器
-        self.saver = 0
         # 用户信息数据库
         f = open(self.datapath, 'rt')
         self.maindata = json.load(f)
         f.close()
-    # API析构函数：数据落盘
+        # 启动日志系统（内存）
+        self.logdata = lg.Logs()
+        # 存盘指示器
+        self.saver = 0
+    # API 函数：数据落盘
     def dataSaver(self):
         if(self.saver == 1):
+            # 主数据库存盘
             f = open(self.datapath, 'wt')
             json.dump(self.maindata, f)
             f.close()
-            # 通知人脸数据库也执行存盘操作
-            self.facedata.dataClose()
+            # 通知人脸数据库执行存盘操作
+            self.facedata.dataSaver()
+            # 通知日志数据库执行存盘操作
+            self.logdata.dataSaver()
             print("Data saved OK")
         else:
-            print("in users database: Nothing to do")
+            print("In database: Nothing to do")
 
     # API 函数：取得注册用户信息
     # 参数：用户UID
@@ -49,13 +55,15 @@ class APIList():
         else:
             return json.dumps(self.maindata[uid])
 
-    # API 函数：前端获取到人脸图片交后台程序处理
+    # API 函数：前端人脸图片识别（Web API）
     # 参数：二进制图片（Blob）
     # 返回：识别结果数据（JSON）
     def faceRecognition(self, img_obj):
         r = { }
         r = self.facedata.recognizeFace(unknown_img_obj = img_obj)
         #print(r)
+        # 通知日志系统记录识别日志
+        self.logdata.addRow(r)
         try:
             if(r['uid'] != 'unknown' and r['uid'] != 'noface'):
                 u = r
@@ -67,21 +75,23 @@ class APIList():
         except:
             return json.dumps(r)
 
-    # API 函数：读取本地人脸图片交后台程序处理
+    # API 函数：本地人脸图片识别
     # 参数：本地图片路径（String）
     # 返回：识别结果数据（JSON）
     def cliFaceRecognition(self, img_path):
         r = { }
-        # 读取本地图片
+        # 识别本地图片
         r = self.facedata.recognizeFace(unknown_img_path = img_path)
         #print(r)
+        # 通知日志系统记录
+        self.logdata.addRow(r)
         try:
             if(r['uid'] != 'unknown' and r['uid'] != 'noface'):
                 u = r
                 u_info = self.maindata[r['uid']]
                 u.update({'info': u_info})
                 # 问好
-                if(True):
+                if(False):
                     name = u_info['name']
                     ext = '先生' if (u_info['gender'] == '男') else '女士'
                     words = '很高兴遇见你，'
@@ -91,7 +101,7 @@ class APIList():
                     os.system(cmd)
                 return json.dumps(r)
             elif(r['uid'] == 'unknown'):
-                if(True):
+                if(False):
                     words = '您好，本系统目前还不认识您，您可以尝试录入信息'
                     cmd = 'ssh ziheng@10.211.55.14 ' + "'say " + words + "'"
                     print(cmd)

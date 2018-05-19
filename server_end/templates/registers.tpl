@@ -37,12 +37,14 @@
         <div id="cm-menu-items-wrapper">
           <div id="cm-menu-scroller">
             <ul class="cm-menu-items">
+
               <li class="inactive"><a href="/welcome" class="sf-house">欢迎页面</a></li>
               <li class="inactive"><a href="/dashboard" class="sf-dashboard">数据中心</a></li>
-              <li class="active"><a href="/registers" class="sf-layers">注册用户</a></li>
-              <li class="inactive"><a href="#" class="sf-layers">门禁记录</a></li>
-              <li class="inactive"><a href="#" class="sf-layers">访客添加</a></li>
-              <li class="inactive"><a href="#" class="sf-lock-open">登录页面</a></li>
+              <li class="active"><a href="/registers" class="sf-user-id">注册用户</a></li>
+              <li class="inactive"><a href="/records" class="sf-notepad">门禁记录</a></li>
+              <li class="inactive"><a href="useradd" class="sf-handshake">访客添加</a></li>
+              <li class="inactive"><a href="/systool" class="sf-wrench-screwdriver">系统工具</a></li>
+              <li class="inactive"><a href="/video" class="sf-webcam">Demo演示</a></li>
             </ul>
           </div>
         </div>
@@ -115,8 +117,10 @@
       <div class="container-fluid">
         <div class="panel panel-default">
           <div class="panel-body">
-            <h2>欢迎使用门禁后台管理系统</h2>
-            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis.</p>
+            <h2>欢迎使用AI门禁后台管理系统</h2>
+            <p>
+            本页为门禁管理系统，管理员可以查看系统中所有已注册用户的信息，包括但不限于用户UID，姓名，年龄...管理员可以对已注册用户数据进行增删改查。
+            </p>
           </div>
         </div>
         <div class="row cm-fix-height">

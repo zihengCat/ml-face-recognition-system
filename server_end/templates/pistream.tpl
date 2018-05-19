@@ -4,6 +4,7 @@
 	<title>Demo - Raspberry Pi Streaming Recognition</title>
 	<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/assert/css/github-markdown.css">
 	<style type="text/css">
 		body {
 			text-align: center;

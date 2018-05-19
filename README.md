@@ -21,6 +21,13 @@ Please make sure your system requirements has no problem. Do as following.
 - install all dependences using `pip3 install -r requirement.txt`
 - run `python3 app.py` to start the system
 
+# Architecture
+
+The project achieved a high availability and develop friendly Face Recognition 
+
+
+
+
 # Demo
 
 The following image shows that the system works fine.
