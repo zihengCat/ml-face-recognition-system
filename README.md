@@ -33,8 +33,6 @@ The project achieved a high availability and develop friendly Face Recognition S
 
 ![example4][example_4]
 
-![example5][example_5]
-
 The problem is to processing video streams(both converting and analysising), I chieve that in a creative way. Using WebRTC to catch streams from a target IP addres(using Web Socket `ws://`). And converting every frame on the video stream by using HTML5 Canvas API. Then sending every frame captured to back-end server, server analysised and returned JSON to show the results.
 
 ![arch1][arch_1]
@@ -61,7 +59,6 @@ The following example shows that the system works fine.
 [example_2]: ./dev_docs/doc_images/example_2.png
 [example_3]: ./dev_docs/doc_images/example_3.png
 [example_4]: ./dev_docs/doc_images/example_4.png
-[example_5]: ./dev_docs/doc_images/example_5.png
 [arch_1]: ./dev_docs/doc_images/arch_1.png
 [demo_1]: ./dev_docs/doc_images/demo_1.png
 
