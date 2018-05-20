@@ -25,19 +25,19 @@ Please make sure your system requirements has no problem. Do as following.
 
 The project achieved a high availability and develop friendly Face Recognition System based on `dlib` machine learning library and python `flask` micro web framework. Back-end server using the core face recognition modular to analysis specific image infomations, something like that, does the image contains faces, what location landmarks on the face, what is the distance of two images...etc. Look at examples.
 
-[example1][example1]
+[example1][example_1]
 
-[example2][example2]
+[example2][example_2]
 
-[example3][example3]
+[example3][example_3]
 
-[example4][example4]
+[example4][example_4]
 
-[example5][example5]
+[example5][example_5]
 
 The problem is to processing video streams(both converting and analysising), I chieve that in a creative way. Using WebRTC to catch streams from a target IP addres(using Web Socket `ws://`). And converting every frame on the video stream by using HTML5 Canvas API. Then sending every frame captured to back-end server, server analysised and returned JSON to show the results.
 
-[arch_1][arch_1]
+[arch1][arch_1]
 
 After achieved core face recognition modular and video stream processing modular, I started building an AI based Access Control System by using two core modulars. The Access Control System could recognize faces on **Memory based Face key-value Database** quickly, effectively and correctly.
 
@@ -51,17 +51,17 @@ The front end managment system is developed based on `Bootstrap`, also added som
 
 The following example shows that the system works fine.
 
-![demo_1][demo_1]
+![demo1][demo_1]
 
 # License
 
 [MIT](./LICENSE)
 
-[example1]: ./dev_docs/doc_images/example_1.png
-[example2]: ./dev_docs/doc_images/example_2.png
-[example3]: ./dev_docs/doc_images/example_3.png
-[example4]: ./dev_docs/doc_images/example_4.png
-[example5]: ./dev_docs/doc_images/example_5.png
+[example_1]: ./dev_docs/doc_images/example_1.png
+[example_2]: ./dev_docs/doc_images/example_2.png
+[example_3]: ./dev_docs/doc_images/example_3.png
+[example_4]: ./dev_docs/doc_images/example_4.png
+[example_5]: ./dev_docs/doc_images/example_5.png
 [arch_1]: ./dev_docs/doc_images/arch_1.png
 [demo_1]: ./dev_docs/doc_images/demo_1.png
 
